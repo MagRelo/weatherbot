@@ -1,0 +1,9 @@
+node_modules
+.tmp
+.sass-cache
+.idea
+.DS_Store
+client/bower_components
+/server/config/local.env.js
+npm-debug.log
+newrelic_agent.log
