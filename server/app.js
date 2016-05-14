@@ -17,7 +17,7 @@ mongoose.connection.on('error', function(err) {
 
 
 // Begin job scheduler
-require('./jobs');
+// require('./jobs');
 
 // Setup server
 var app = express();

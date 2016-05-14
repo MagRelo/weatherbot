@@ -6,11 +6,11 @@ var auth = require('../../auth/auth.service');
 
 var router = express.Router();
 
-router.get('/testweather', controller.testWeather);
-router.get('/testforecast', controller.testForecast);
+router.get('/weather/current', controller.currentWeather);
+router.get('/weather/forecast', controller.forecast);
 
-router.get('/testtwiliosend', controller.testTwilioSend);
-router.get('/testtwiliorecieve', controller.testTwilioRecieve);
+router.post('/twilio/send', controller.testTwilioSend);
+router.post('/twilio/recieve', controller.testTwilioRecieve);
 
 
 module.exports = router;

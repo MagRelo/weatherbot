@@ -6,7 +6,7 @@ module.exports = {
 
 
   mongo: {
-    uri: 'mongodb://localhost/spoonnode-dev'
+    uri: 'mongodb://localhost/weatherBot'
   },
 
   seedDB: 'true',

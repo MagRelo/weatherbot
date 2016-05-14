@@ -2,6 +2,10 @@
   "name": "weatherbot",
   "version": "1.0.0",
   "description": "Send SMS weather updates",
+  "repository":
+      { "type" : "git"
+      , "url" : "https://github.com/MagRelo/weatherbot.git"
+      },
   "main": "server/app.js",
   "scripts": {
     "start": "node server/app.js",
@@ -28,8 +32,10 @@
     "jsonwebtoken": "^5.7.0",
     "lodash": "^4.11.1",
     "method-override": "^2.3.5",
+    "moment": "^2.13.0",
     "mongoose": "^4.4.13",
     "morgan": "^1.7.0",
+    "natural": "^0.4.0",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "path": "^0.12.7",

@@ -9,7 +9,7 @@ var twilio = require('../../components/twilio')
 
 
 //-- Weather API Tests
-exports.testWeather = function(req, res) {
+exports.currentWeather = function(req, res) {
 
 	weather.currentWeather('83706', 'us')
 		.then(function (response) {
@@ -26,8 +26,7 @@ exports.testWeather = function(req, res) {
 
 		})
 }
-
-exports.testForecast = function(req, res) {
+exports.forecast = function(req, res) {
 
 	weather.forecast('83706', 'us')
 		.then(function (response) {
@@ -62,12 +61,11 @@ exports.testTwilioSend = function(req, res) {
 
 		})
 }
-
 exports.testTwilioRecieve = function(req, res) {
 
 	// accept
 
-	twilio.recieveMessage(req.body)
+	twilio.recieveAndRespond(req.body)
 		.then(function (response) {
 
 			res.status(200).json(response)
