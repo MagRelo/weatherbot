@@ -8,6 +8,8 @@ var Subscriber = require('../../models/subscriber.model')
 
 var Process = require('./process')
 
+var verifiedTwilioNumber = "+12088712928"
+
 //Send an SMS text message
 exports.sendMessage = function (phoneNumber, messageString) {
 
@@ -23,31 +25,35 @@ exports.sendMessage = function (phoneNumber, messageString) {
 //Receive an SMS text message
 exports.recieveAndRespond = function (requestBody) {
 
-  var responseMessage
+  var subscriberInfo = {}
+  var tokenArray = Process.tokenizeIncomingMessage(requestBody.body)
+  var responseMessage = ""
 
-  // update existing subscriber or create a new one
-  Process.updateUserSettings(requestBody)
-    .then(function(subscriberDoc) {
+  return Subscriber.findOneAndUpdate({phoneNumber: requestBody.From}, {}, {upsert: true, new: true})
+    .then (function (subscriberDoc) {
 
-      // process
-      responseMessage = Process.craftResponseMessage(subscriberDoc.isNew, subscriberDoc.settings, requestBody)
+      subscriberInfo = subscriberDoc
+      responseMessage = Process.craftResponseMessage(subscriberInfo, tokenArray)
 
-      // update user record with response
       return twilio.sendMessage({
-        to: requestBody.From,
-        from: config.TwilioFromNumber,
-        body: responseMessage
-      })
-
+          to: verifiedTwilioNumber,
+          from: config.TwilioFromNumber,
+          body: responseMessage
+        }
+      )
     })
     .then(function (twilioResponse) {
 
       return Subscriber.findOneAndUpdate(
         {phoneNumber: requestBody.From},
         {$push: {messages: {
-            requestBody: requestBody,
+            incomingRequest: {
+              requestBody: requestBody,
+              tokenArray: tokenArray
+            },
+            subscriberInfo: subscriberInfo,
             responseMessage: responseMessage,
-            responseBody: twilioResponse
+            twilioSendResponse: twilioResponse
           }}
         },
         {upsert: true, new: true}

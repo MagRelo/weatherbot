@@ -1,11 +1,39 @@
-// var config = require("../../config/environment")
-// var twilio = require('twilio')(config.TwilioAPIKey, config.TwilioAPISecret);
-
 var _ = require('lodash')
 var moment = require('moment')
 
 var natural = require('natural')
 wordTokenizer = new natural.WordTokenizer();
+
+var Subscriber = require('../../models/subscriber.model')
+
+exports.tokenizeIncomingMessage = function(messageBody) {
+  // tokenize the message
+  return wordTokenizer.tokenize(messageBody)
+}
+
+exports.craftResponseMessage = function (subsciber, tokenArray) {
+
+  var responseMessage = 'Word count:' + tokenArray.length
+
+  // get array of {keyword, keywordTest, action}
+  // var responseConditionArray = [
+  //   {keyword: 'newUser', test: isNewUser , action: 'Hey, pal! Looks like you\'re new here. '},
+  //   {keyword: 'yes', test: /(yes)/ , action: 'You responded Yes. '},
+  //   {keyword: 'blue', test: /(blue)/ , action: 'You mentioned Blue. '}
+  // ]
+
+  // responseConditionArray.forEach(function(responseCondition) {
+  //   tokenArray.forEach(function(token) {
+
+  //     if(responseCondition.test.test(token)){
+  //       responseMessage += responseCondition.action
+  //     }
+  //   })
+  // })
+
+  return responseMessage
+}
+
 
 exports.updateUserSettings = function(requestBody){
 
@@ -30,32 +58,6 @@ exports.updateUserSettings = function(requestBody){
     {upsert: true, new: true}
   )
 
-}
-
-exports.craftResponseMessage = function (isNewUser, subscriberSettings, messageBody) {
-
-  var responseMessage = ''
-
-  // get array of {keyword, keywordTest, action}
-  var responseConditionArray = [
-    {keyword: 'newUser', test: isNewUser , action: 'Hey, pal! Looks like you\'re new here. '},
-    {keyword: 'yes', test: /(yes)/.test(token) , action: 'You responded Yes. '},
-    {keyword: 'blue', test: /(blue)/.test(token) , action: 'You mentioned Blue. '}
-  ]
-
-  responseConditionArray.forEach(function(responseCondition) {
-
-    // loop through each token. if it passes the test, add the message
-    var tokenArray = wordTokenizer.tokenize(requestBody.body)
-    tokenArray.forEach(function(token) {
-
-      if(responseCondition.test){
-        responseMessage += responseCondition.action
-      }
-    })
-  })
-
-  return responseMessage
 }
 
 function zipcodeTest(token) {
