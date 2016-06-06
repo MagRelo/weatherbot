@@ -25,6 +25,8 @@ exports.sendMessage = function (phoneNumber, messageString) {
 //Receive an SMS text message
 exports.recieveAndRespond = function (requestBody) {
 
+  console.log(requestBody.body)
+
   var subscriberInfo = {}
   var tokenArray = Process.tokenizeIncomingMessage(requestBody.body)
   var responseMessage = ""
