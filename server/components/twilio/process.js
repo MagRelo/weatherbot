@@ -40,7 +40,7 @@ exports.updateUserSettings = function(requestBody){
   var newSettings = {}
 
   // check each word token for a valid setting value and set it
-  var tokenArray = wordTokenizer.tokenize(requestBody.body)
+  var tokenArray = wordTokenizer.tokenize(requestBody.Body)
   tokenArray.forEach(function (token) {
     if (zipcodeTest(token)){
       newSettings.zipCode = token;
