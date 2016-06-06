@@ -63,9 +63,6 @@ exports.testTwilioSend = function(req, res) {
 }
 exports.testTwilioRecieve = function(req, res) {
 
-	// accept
-	console.log(req.body)
-
 	twilio.recieveAndRespond(req.body)
 		.then(function (response) {
 
