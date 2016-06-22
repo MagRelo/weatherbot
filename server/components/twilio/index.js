@@ -21,7 +21,6 @@ exports.sendMessage = function (phoneNumber, messageString) {
 
 }
 
-
 //Receive an SMS text message
 exports.recieveAndRespond = function (requestBody) {
 
@@ -46,11 +45,12 @@ exports.recieveAndRespond = function (requestBody) {
  -- //  From: '+12088712928',
  //  ApiVersion: '2010-04-01' }
 
-  var subscriberInfo = {}
+  var subscriberInfo = {};
   var tokenArray = Process.tokenizeIncomingMessage(requestBody.Body)
   var responseMessage = ""
 
-  return Subscriber.findOneAndUpdate({phoneNumber: requestBody.From}, {}, {upsert: true, new: true})
+  return Subscriber.findOneAndUpdate(
+    {'phoneNumber': requestBody.From}, {}, {upsert: true, new: true})
     .then (function (subscriberDoc) {
 
       subscriberInfo = subscriberDoc
@@ -66,18 +66,20 @@ exports.recieveAndRespond = function (requestBody) {
     .then(function (twilioResponse) {
 
       return Subscriber.findOneAndUpdate(
-        {phoneNumber: requestBody.From},
-        {$push: {messages: {
-            incomingRequest: {
-              requestBody: requestBody,
-              tokenArray: tokenArray
+        {'phoneNumber': requestBody.From},
+        {'$push': {
+          'messages': {
+            'incomingRequest': {
+              'requestBody': requestBody,
+              'tokenArray': tokenArray
             },
-            subscriberInfo: subscriberInfo,
-            responseMessage: responseMessage,
-            twilioSendResponse: twilioResponse
-          }}
-        },
-        {upsert: true, new: true}
+            'subscriberInfo': subscriberInfo,
+            'responseMessage': responseMessage,
+            'twilioSendResponse': twilioResponse
+            }
+          'settings'
+          }}, 
+          {upsert: true, new: true}
       )
 
     })
