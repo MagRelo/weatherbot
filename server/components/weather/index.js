@@ -1,4 +1,3 @@
-//node modules
 var bluebird = require("bluebird")
 var request = bluebird.promisify(require('request'))
 var config = require('../../config/environment')

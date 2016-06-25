@@ -6,32 +6,23 @@ wordTokenizer = new natural.WordTokenizer();
 
 var Subscriber = require('../../models/subscriber.model')
 
+var weather = require('../weather')
+
 exports.tokenizeIncomingMessage = function(messageBody) {
   // tokenize the message
   return wordTokenizer.tokenize(messageBody)
 }
 
-exports.craftResponseMessage = function (subsciber, tokenArray) {
+exports.craftResponseMessage = function (subscriber, tokenArray) {
 
-  var responseMessage = 'Word count:' + tokenArray.length
+  var responseMessage
 
-  // get array of {keyword, keywordTest, action}
-  // var responseConditionArray = [
-  //   {keyword: 'newUser', test: isNewUser , action: 'Hey, pal! Looks like you\'re new here. '},
-  //   {keyword: 'yes', test: /(yes)/ , action: 'You responded Yes. '},
-  //   {keyword: 'blue', test: /(blue)/ , action: 'You mentioned Blue. '}
-  // ]
+  weather.currentWeather(subscriber.settings.fromZip, subscriber.settings.fromCountry)
+    .then(function (weatherResponse) {
+      return weatherResponse
+    })
 
-  // responseConditionArray.forEach(function(responseCondition) {
-  //   tokenArray.forEach(function(token) {
-
-  //     if(responseCondition.test.test(token)){
-  //       responseMessage += responseCondition.action
-  //     }
-  //   })
-  // })
-
-  return responseMessage
+  // return responseMessage
 }
 
 

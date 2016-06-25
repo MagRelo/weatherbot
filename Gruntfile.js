@@ -613,7 +613,7 @@ module.exports = function (grunt) {
         // 'injector:sass',
         'concurrent:server',
         // 'injector',
-        'wiredep',
+        // 'wiredep',
         // 'autoprefixer',
         'concurrent:debug'
       ]);
@@ -625,7 +625,7 @@ module.exports = function (grunt) {
       // 'injector:sass',
       'concurrent:server',
       // 'injector',
-      'wiredep',
+      // 'wiredep',
       // 'autoprefixer',
       'express:dev',
       'wait',
