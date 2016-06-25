@@ -13,7 +13,7 @@ module.exports = {
 
   // MongoDB connection options
   mongo: {
-    uri:    process.env.MONGO_URL + '/production'|| 'mongodb://localhost/weatherBot'},
+    uri:    process.env.MONGODB_URL || 'mongodb://localhost/weatherBot'},
 
   seedDB: process.env.SEEDDB
 };
