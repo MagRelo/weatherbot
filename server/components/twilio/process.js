@@ -17,7 +17,7 @@ exports.craftResponseMessage = function (subscriber, tokenArray) {
 
   var responseMessage
 
-  weather.currentWeather(subscriber.settings.fromZip, subscriber.settings.fromCountry)
+  return weather.currentWeather(subscriber.settings.fromZip, subscriber.settings.fromCountry)
     .then(function (weatherResponse) {
       return weatherResponse
     })
